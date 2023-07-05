@@ -1,0 +1,86 @@
+.employee-select{
+    width: 20%;
+    height: 45px;
+}
+.employee-section{
+    padding: 20px;
+}
+
+.employee-select-section{
+    padding-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+  .table-container {
+    overflow-x: auto;
+  }
+  
+  .order-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+  }
+  
+  .order-table th,
+  .order-table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ccc;
+    min-width: 150px;
+    max-width: 150px;
+    width: 150px;
+  }
+  .table-header tr th {
+    font-size: 14px;
+    background-color: rgb(162, 219, 162);
+    width: 100px;
+  }
+  
+  .table-body tr td {
+    font-size: 12px;
+  }
+    
+  .collect-order-button{
+    width: 200px;
+    height: 45px;
+    background-color:rgb(162, 219, 162) ;
+    color: black;
+    font-size: 15px;
+    border-radius: 25px;
+    border: none;
+    font-weight: bold;
+  }
+  @media (max-width: 768px) {
+    .order-table td,
+    .order-table th {
+      font-size: 10px;
+      padding: 6px;
+      min-width: 110px;
+      max-width: 110px;
+      width: 110px;
+    }
+    .employee-select{
+        width: 50%;
+        height: 30px;
+    }
+    .collect-order-button{
+        width: 100px;
+        height: 30px;
+        font-size: 10px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .order-table td,
+    .order-table th {
+      padding: 4px;
+    }
+  
+    .table-header tr th {
+      font-size: 10px;
+    }
+  
+    .table-body tr td {
+      font-size: 9px;
+    }
+  }
