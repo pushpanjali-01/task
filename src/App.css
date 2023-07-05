@@ -1,38 +1,89 @@
-.App {
-  text-align: center;
+.product-list {
+  padding: 20px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.table-container {
+  overflow-x: auto;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.product-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ccc;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.product-table th,
+.product-table td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ccc;
+}
+
+.pagination {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  margin-top: 20px;
 }
 
-.App-link {
-  color: #61dafb;
+.pagination button {
+  margin: 0 5px;
+  padding: 5px 10px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.product-image {
+  width: 100px;
+}
+
+.table-header tr th {
+  font-size: 14px;
+}
+
+.table-body tr td {
+  font-size: 12px;
+}
+
+.product-table {
+  width: 100%;
+}
+
+.product-image {
+  max-width: 100px;
+  max-height: 100px;
+}
+
+.menu-image {
+  width: 2px;
+  padding-left: 5px;
+}
+
+@media (max-width: 768px) {
+
+  .product-table td,
+  .product-table th {
+    font-size: 10px;
+    padding: 6px;
   }
-  to {
-    transform: rotate(360deg);
+}
+
+@media (max-width: 480px) {
+
+  .product-table td,
+  .product-table th {
+    /* font-size: 10px; */
+    padding: 4px;
+  }
+  .table-header tr th {
+    font-size: 10px;
+  }
+  
+  .table-body tr td {
+    font-size: 9px;
+  }
+  .menu-image{
+    padding-left: 3px;
+  }
+  .product-image {
+    max-width: 50px;
+    max-height: 50px;
   }
 }

@@ -1,0 +1,38 @@
+.pagination-buttons {
+  background-color: transparent;
+  border: none;
+  margin: 0 5px;
+  padding: 5px 10px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pagination-icons {
+  width: 20px;
+}
+
+.pagination button {
+  border-radius: 100%;
+  border: none;
+  background-color: transparent;
+}
+
+.pagination button.active {
+  background-color: rgb(169, 241, 169);
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .pagination-icons {
+    width: 15px;
+  }
+
+  .pagination-buttons {
+    margin: 5px 0;
+  }
+}

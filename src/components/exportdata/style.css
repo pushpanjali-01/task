@@ -1,0 +1,13 @@
+.export-btn{
+    width: 130px;
+    height: 45px;
+    border-radius: 25px;
+    border: none;
+    color: white;
+    background-color: #0eb162;
+    font-size: 15px;
+}
+.export-buttons{
+    display: flex;
+    gap: 20px;
+}
