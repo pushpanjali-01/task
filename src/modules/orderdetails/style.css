@@ -1,0 +1,177 @@
+.tables-con {
+    display: flex;
+    width: 100%;
+
+}
+
+.table {
+    flex: 1;
+}
+
+.popup {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.popup-inner {
+    background-color: #fff;
+    width: 300px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.orderdetails-section {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    margin: 10px;
+}
+
+.label-name {
+    color: #3e50b7;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.order-input-section {
+    display: block;
+}
+
+.order-input {
+    border: none;
+    border-bottom: 2px solid #3e50b7;
+    outline: none;
+    padding: 5px;
+    font-size: 16px;
+    width: 90%;
+}
+
+.submit-btn {
+    width: 100px;
+    height: 45px;
+    background-color: #3e50b7;
+    margin-top: 10px;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    border: none;
+}
+
+.submit-btn-section {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}
+
+.content-section {
+    background-color: white;
+}
+
+.order-id {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.item-image {
+    width: 80px;
+}
+
+.table-data {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.table-data .table-main {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-data .table-main tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.table-data .table-main th,
+.table-data .table-main td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: left;
+    font-size: 14px;
+}
+
+.table-total {
+    width: 45%;
+    text-align: center;   
+}
+
+.table-scanned {
+    width: 45%;
+    text-align: center;
+}
+
+.table-heading{
+    font-size: 32px;
+    font-weight: bolder;
+}
+.scan-btn{
+    width: 50px;
+    height: 30px;
+    background-color: #3e50b7;
+    color: white;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+}
+.barcode-validate{
+    display: flex;
+    gap: 30px;
+}
+.order-packed-btn button{
+    width: 150px;
+    height: 40px;
+    background-color: #3e50b7;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    font-size: 14px;
+}
+.order-packed-btn{
+    display: flex;
+    justify-content: center;
+    margin-top: 30px
+}
+@media (max-width: 767px) {
+    .popup-inner {
+      width: 90%;
+      padding: 10px;
+    }
+  
+    .order-input {
+      width: 100%;
+    }
+  
+    .table-data .table-main th,
+    .table-data .table-main td {
+      font-size: 8px;
+    }
+    .table-heading{
+        font-size: 18px;
+        font-weight: bolder;
+    }
+    .table-total{
+        width: 50%;
+        overflow-x: scroll;
+    }
+    .table-scanned{
+        width: 50%;
+        overflow-x: scroll;
+    }
+  }
