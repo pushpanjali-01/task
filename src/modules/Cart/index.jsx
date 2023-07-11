@@ -82,86 +82,69 @@ function ProductSearch() {
 
     const addToCart = (item, quantity) => {
         setCartItems((prevCartItems) => {
-            const itemStock = stock[item.id];
-
-            if (itemStock > 0) {
-                if (itemStock >= quantity) {
-                    const existingItemIndex = prevCartItems.findIndex((cartItem) => cartItem.item.id === item.id);
-
-                    if (existingItemIndex !== -1) {
-                        const updatedCartItems = [...prevCartItems];
-                        updatedCartItems[existingItemIndex].quantity += quantity;
-                        return updatedCartItems;
-                    }
-
-                    return [...prevCartItems, { item, quantity }];
-                } else {
-                    alert(`There is only ${itemStock} stock available.`);
-                }
+          const itemStock = stock[item.id];
+      
+          if (itemStock > 0) {
+            if (itemStock >= quantity) {
+              const existingCartItem = prevCartItems.find((cartItem) => cartItem.item.id === item.id);
+      
+              if (existingCartItem) {
+                existingCartItem.quantity += quantity;
+                return [...prevCartItems];
+              }
+      
+              return [...prevCartItems, { item, quantity }];
+            } else {
+              alert(`There is only ${itemStock} stock available.`);
             }
-
-            return prevCartItems;
+          }
+      
+          return prevCartItems;
         });
-
+      
         setStock((prevStock) => {
-            const itemStock = prevStock[item.id];
-            console.log(prevStock[item.id])
-            if (itemStock > 0 && itemStock >= quantity) {
-                return {
-                    ...prevStock,
-                    [item.id]: itemStock - quantity
-                };
-
-            }
-            return prevStock[item.id];
-
+          const itemStock = prevStock[item.id];
+      
+          if (itemStock > 0 && itemStock >= quantity) {
+            return {
+              ...prevStock,
+              [item.id]: itemStock - quantity
+            };
+          }
+      
+          return prevStock;
         });
-
-
-        setRemoveButtonDisabled(false); 
-    };
-
-
-    const removeFromCart = (item) => {
-        setCartItems((prevCartItems) => {
-            const updatedCartItems = prevCartItems.map((cartItem) => {
-                if (cartItem.item.id === item.id) {
-                    const newQuantity = cartItem.quantity - item.quantity;
-
-                    if (newQuantity <= 0) {
-                        return null; // Mark the item for removal
-                    }
-
-                    return {
-                        ...cartItem,
-                        quantity: newQuantity,
-                    };
-                }
-
-                return cartItem;
-            });
-
-            const filteredCartItems = updatedCartItems.filter(Boolean);
-
-            if (filteredCartItems.length === 0) {
-                setRemoveButtonDisabled(true); 
-            }
-
-            setStock((prevStock) => {
-                return {
-                    ...prevStock,
-                    [item.id]: prevStock[item.id] - 1 + item.quantity
-                };
-
-            });
-
-            return filteredCartItems;
-        });
-    };
-
-
-
-
+      
+        setRemoveButtonDisabled(false);
+      };     
+      const removeFromCart = (item) => {
+        const itemInCart = cartItems.find((cartItem) => cartItem.item.id === item.id);
+      
+        if (itemInCart) {
+          if (item.quantity > itemInCart.quantity) {
+            alert(`Cannot remove more items than available in the cart.`);
+            return; // Return early if quantity is greater than available in the cart
+          }
+      
+          setCartItems((prevCartItems) =>
+            prevCartItems.map((cartItem) =>
+              cartItem.item.id === item.id ? { ...cartItem, quantity: cartItem.quantity - item.quantity } : cartItem
+            )
+          );
+      
+          setStock((prevStock) => {
+            const newStock = prevStock[item.id] + item.quantity;
+            return { ...prevStock, [item.id]: newStock };
+          });
+        } else {
+          alert(`Item is not in the cart.`);
+        }
+      };
+      
+      
+      
+      
+      
     const calculateCartValue = () => {
         let totalQuantity = 0;
         cartItems.forEach((cartItem) => {
@@ -263,6 +246,4 @@ function ProductSearch() {
 }
 
 export default ProductSearch;
-
-
 
