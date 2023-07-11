@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import "./style.css";
+import { Card } from 'react-bootstrap';
 
 function CartItems() {
     const location = useLocation();
@@ -108,7 +109,7 @@ function CartItems() {
 
     const handleVerifyOTP = async () => {
         try {
-            const verifyOTPResponse = await axios.post('https://devapi.grozep.com/login/v1/phone-verification', { code: parseInt(otpValue),number: mobileNumber });
+            const verifyOTPResponse = await axios.post('https://devapi.grozep.com/login/v1/phone-verification', { code: parseInt(otpValue), number: mobileNumber });
             console.log('OTP verified successfully:', verifyOTPResponse.data);
             setIsRegistered(true)
         } catch (error) {
@@ -119,141 +120,158 @@ function CartItems() {
     return (
         <main>
             <section className='cart-items-section'>
-                <div>
-                    <h1>Cart Items</h1>
-                    <table className='search-table'>
-                        <thead className='search-head'>
-                            <tr>
-                                <th>ID</th>
-                                <th>Image</th>
-                                <th>Name</th>
-                                <th>Size</th>
-                                <th>MRP</th>
-                                <th>Discount</th>
-                                <th>Rate</th>
-                                <th>Stock</th>
-                                <th>Quantity</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody className='search-body'>
-                            {cartItems.map((item, index) => (
-                                <tr key={index}>
-                                    <td>{item.item.id}</td>
-                                    <td>
-                                        <img src={item.item.variant.imageURL[0]} alt={item.item.name} />
-                                    </td>
-                                    <td>{item.item.name}</td>
-                                    <td>{item.item.variant.size}</td>
-                                    <td>{item.item.variant.supplies[0].mrp}</td>
-                                    <td>{item.item.variant.supplies[0].off}</td>
-                                    <td>{item.item.variant.supplies[0].off}</td>
-                                    <td>{updatedStock[item.item.id]}</td> {/* Display updated stock */}
-                                    <td>{item.quantity}</td>
-                                    <td>{calculateTotal(item)}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-                {!isRegistered ? (
-                    <div>
+                <div className='cart-portion'>
+                    <Card className='cart-stored'>
                         <div>
-                            <input
-                                type='text'
-                                placeholder='Mobile Number'
-                                value={mobileNumber}
-                                onChange={(e) => setMobileNumber(e.target.value)}
-                            />
-                        </div>
-                        <div>
-                            <input
-                                type="text"
-                                placeholder='Name'
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                            />
-                        </div>
-
-                        <div>
-                            <button onClick={handleCreateUser}>Create user</button>
-                        </div>
-                        <div>
-                            {otp && (
-                                <div>
-                                    <div>
-                                        <input value={otpValue} onChange={(e) => setOtpvalue(e.target.value)} />
-                                    </div>
-                                    <div>
-                                        <button onClick={handleVerifyOTP}>verify</button>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                ) : (
-                    <div>
-                        <div>
-                            <p>Invoices</p>
-                        </div>
-                        <div>
-                            <input
-                                type='text'
-                                placeholder='Mobile Number'
-                                value={mobileNumber}
-                                onChange={(e) => setMobileNumber(e.target.value)}
-                            />
-                        </div>
-                        <div>
-                            {voucherAmount && (
-                                <div>
-                                    <select value={selectedVoucher} onChange={(e) => setSelectedVoucher(e.target.value)}>
-                                        <option value="">Select Voucher Amount</option>
-                                        {voucherAmount.map((amount, index) => (
-                                            <option key={index} value={amount}>
-                                                {amount}
-                                            </option>
+                            <div className='cart-heading'>
+                                <p>Cart Items</p>
+                            </div>
+                            <Card className='table-data-card'>
+                                <table className='search-table'>
+                                    <thead className='search-head'>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Image</th>
+                                            <th>Name</th>
+                                            <th>Size</th>
+                                            <th>MRP</th>
+                                            <th>Discount</th>
+                                            <th>Rate</th>
+                                            <th>Stock</th>
+                                            <th>Quantity</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className='search-body'>
+                                        {cartItems.map((item, index) => (
+                                            <tr key={index}>
+                                                <td>{item.item.id}</td>
+                                                <td>
+                                                    <img src={item.item.variant.imageURL[0]} alt={item.item.name} />
+                                                </td>
+                                                <td>{item.item.name}</td>
+                                                <td>{item.item.variant.size}</td>
+                                                <td>{item.item.variant.supplies[0].mrp}</td>
+                                                <td>{item.item.variant.supplies[0].off}</td>
+                                                <td>{item.item.variant.supplies[0].off}</td>
+                                                <td>{updatedStock[item.item.id]}</td> {/* Display updated stock */}
+                                                <td>{item.quantity}</td>
+                                                <td>{calculateTotal(item)}</td>
+                                            </tr>
                                         ))}
-                                    </select>
+                                    </tbody>
+                                </table>
+                            </Card>
+                        </div>
+                    </Card>
+                    <Card className='order-section'>
+                        {!isRegistered ? (
+                            <div className='create-user-section'>
+                                <div className='mobile-input'>
+                                    <input
+                                        type='text'
+                                        placeholder='Mobile Number'
+                                        value={mobileNumber}
+                                        onChange={(e) => setMobileNumber(e.target.value)}
+                                    />
                                 </div>
-                            )}
-                        </div>
-                        <div>
-                            <p>Sub Total Amount: {subtotal}</p> {/* Display subtotal */}
-                        </div>
-                        <div>
-                            {redeemPoints >= 100 && (
-                                <div>
-                                    <div>
-                                        <p>Available Points: {redeemPoints}</p>
-                                    </div>
-                                    <div>
-                                        <input type='text' value={enteredRedeemPoints} onChange={(e) => SetEnteredRedeemPoints(e.target.value)} /><button onClick={handleAddredeemPoints}>add redeem points</button>
-                                    </div>
+                                <div className='name-input'>
+                                    <input
+                                        type="text"
+                                        placeholder='Name'
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                    />
                                 </div>
-                            )}
-                        </div>
-                        <div>
-                            {voucherAmount && (
-                                <div>
-                                    <div>
-                                        <p>Voucher Amount : </p>
-                                    </div>
-                                    <div>
-                                        <button onClick={handleApplyVoucher}>Apply Voucher</button>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                        <div>
-                            <p>Payable Amount: {payableTotal}</p> {/* Display payable total */}
-                        </div>
-                        <div>
-                            <button onClick={handlePlaceOrder}>Place Order</button>
-                        </div>
 
-                    </div>
-                )}
+                                <div>
+                                    <button onClick={handleCreateUser} className='place-order-btn'>Create user</button>
+                                </div>
+                                <div>
+                                    {otp && (
+                                        <div>
+                                            <div>
+                                                <input value={otpValue} onChange={(e) => setOtpvalue(e.target.value)} />
+                                            </div>
+                                            <div>
+                                                <button onClick={handleVerifyOTP} >verify</button>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        ) : (
+                            <div className='invoice-details'>
+                                <div className='invoice'>
+                                    <p>Invoices</p>
+                                </div>
+                                <div className='mobile-input'>
+                                    <input
+                                        type='text'
+                                        placeholder='Mobile Number'
+                                        value={mobileNumber}
+                                        onChange={(e) => setMobileNumber(e.target.value)}
+                                    />
+                                </div>
+                                <div>
+                                    {voucherAmount && (
+                                        <div className='select-voucher'>
+                                            <select value={selectedVoucher} onChange={(e) => setSelectedVoucher(e.target.value)}>
+                                                <option value="">Select Voucher Amount</option>
+                                                {voucherAmount.map((amount, index) => (
+                                                    <option key={index} value={amount}>
+                                                        {amount}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className='total-section'>
+                                    <div className='sub-total-section'>
+                                        <p className='sub-total'>Sub Total Amount: </p><p className='subtotal-value'>{subtotal}</p> {/* Display subtotal */}
+                                    </div>
+                                </div>
+                                <div>
+                                    {redeemPoints >= 100 && (
+                                        <div >
+                                            <div className='sub-total-section'>
+                                                <p className='sub-total'>Available Points:</p><p className='subtotal-value'> {redeemPoints}</p>
+                                            </div>
+                                            <div className='redeem-section'>
+                                                <div className='redeem-input'>
+                                                    <input type='text' value={enteredRedeemPoints} onChange={(e) => SetEnteredRedeemPoints(e.target.value)} />
+                                                </div>
+                                                <div className='redeem-add-btn'>
+                                                    <button onClick={handleAddredeemPoints}>Add Points</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                                <div>
+                                    {voucherAmount && (
+                                        <div className='voucher-apply-section'>
+                                            <div className='sub-total'>
+                                                <p>Voucher Amount : </p>
+                                            </div>
+                                            <div>
+                                                <button onClick={handleApplyVoucher} className='apply-voucher-btn'>Apply Voucher</button>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className='sub-total-section'>
+                                    <p className='sub-total'>Payable Amount: </p> <p className='subtotal-value'>{payableTotal}</p>
+                                </div>
+                                <div>
+                                    <button onClick={handlePlaceOrder} className='place-order-btn'>Place Order</button>
+                                </div>
+
+                            </div>
+                        )}
+                    </Card>
+                </div>
             </section>
         </main>
     );
