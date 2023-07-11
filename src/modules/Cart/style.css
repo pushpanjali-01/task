@@ -1,0 +1,33 @@
+.search-table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .search-head th,
+  .search-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .search-head th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  .search-table img {
+    max-width: 50px;
+  }
+  
+  .search-head th:first-child,
+  .search-table td:first-child {
+    padding-left: 16px;
+  }
+  
+  .search-head th:last-child,
+  .search-table td:last-child {
+    padding-right: 16px;
+  }
+  
+.product-search-image{
+    width: 100px;
+}
