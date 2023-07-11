@@ -40,6 +40,7 @@ function CartItems() {
 
         try {
             const response = await axios.post('https://devapi.grozep.com/v1/in/users/details', userDetails);
+            console.log(response.data)
             const points = response.data.data.redeemPoint;
             const voucher = response.data.data.voucher
             const offerAmounts = voucher.map(voucher => voucher.OfferAmount);
@@ -94,10 +95,10 @@ function CartItems() {
                 number: mobileNumber,
                 name: name
             };
-            const createUserResponse = await axios.post('https://api.grozep.com/v1/in/users', userData);
+            const createUserResponse = await axios.post('https://devapi.grozep.com/v1/in/users', userData);
             console.log('User created successfully:', createUserResponse.data);
 
-            const generateOTPResponse = await axios.post('https://api.grozep.com/login/v1/phone', { number: mobileNumber });
+            const generateOTPResponse = await axios.post('https://devapi.grozep.com/login/v1/phone', { number: mobileNumber });
             console.log('OTP generated successfully:', generateOTPResponse.data);
             setOtp(true);
         } catch (error) {
@@ -107,7 +108,7 @@ function CartItems() {
 
     const handleVerifyOTP = async () => {
         try {
-            const verifyOTPResponse = await axios.post('https://api.grozep.com/login/v1/phone-verification', { number: mobileNumber, otp: otpValue });
+            const verifyOTPResponse = await axios.post('https://devapi.grozep.com/login/v1/phone-verification', { code: parseInt(otpValue),number: mobileNumber });
             console.log('OTP verified successfully:', verifyOTPResponse.data);
             setIsRegistered(true)
         } catch (error) {
