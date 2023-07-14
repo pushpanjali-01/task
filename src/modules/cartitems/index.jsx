@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import "./style.css";
 import { Card } from 'react-bootstrap';
@@ -8,6 +8,7 @@ function CartItems() {
     const location = useLocation();
     const cartItems = location.state.cartItems;
     const updatedStock = location.state.updatedStock;
+    const navigate = useNavigate();
 
     const [mobileNumber, setMobileNumber] = useState('');
     const [isRegistered, setIsRegistered] = useState(true);
@@ -117,9 +118,16 @@ function CartItems() {
         }
     };
 
+    const handleGoBack = () => {
+        navigate(-1)
+    };
+
     return (
         <main>
             <section className='cart-items-section'>
+                <div className='back-btn'>
+                    <button onClick={handleGoBack}>Back</button>
+                </div>
                 <div className='cart-portion'>
                     <Card className='cart-stored'>
                         <div>

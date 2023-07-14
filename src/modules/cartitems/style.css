@@ -1,6 +1,6 @@
 .cart-items-section{
-
-    padding: 30px;
+    padding-right: 30px;
+    padding-left: 0px;
 }
 .cart-portion{
     display: flex;
@@ -103,6 +103,16 @@
     border-radius: 5px;
     color: white;
     height: 35px;
+}
+
+.back-btn{
+    margin-left: 30px;
+    margin-bottom: 10px;
+}
+.back-btn button{
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
 }
 
 

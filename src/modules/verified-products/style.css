@@ -1,0 +1,82 @@
+/* .product-img{
+    width: 250px;
+}
+.product-details-card{
+    padding: 20px;
+    height: 100vh;
+    overflow-y: auto;
+}
+.verified-items-section{
+    width: 50%;
+}
+.details-product{
+    display: flex;
+}
+.product-name{
+    display:flex;
+    align-items: center;
+}
+.product-card{
+    margin-top: 20px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+.verified-Products{
+    display: flex;
+}
+
+.bordered-table {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .bordered-table th,
+  .bordered-table td {
+    padding: 8px;
+    font-size: 12px;
+  }
+
+  .report-column{
+    display: flex;
+  }
+  .reason-input{
+    margin-top: 10px;
+  }
+  .report-inputs{
+    width: 60%;
+  }
+  .report-btn{
+    display: flex;
+    align-items: center;
+  }
+  .report-btn button{
+    width: 100px;
+    height: 35px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(80, 211, 80);
+    color: white;
+  }
+ .remove-btn{
+    width: 55px;
+ }
+  .remove-btn button{
+    height: 35px;
+    border: none;
+    background-color: red;
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+  }
+
+  .reported-heading{
+    font-size: 25px;
+    font-weight: bold;
+  }
+  .inner-card{
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    margin-top: 20px;
+  }
+   */

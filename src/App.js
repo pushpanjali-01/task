@@ -8,6 +8,10 @@ import MyComponent from './modules/sample';
 import ProductSearch from './modules/Cart';
 import { BrowserRouter, Route, Router, Routes,Switch } from 'react-router-dom';
 import CartItems from './modules/cartitems';
+import Allotment from './modules/allotment';
+import VerifiedProducts from './modules/verified-products';
+import DealerAllotmentStock from './modules/dealerallotmentstock';
+import VerifiedProductsList from './modules/verified-product-list';
 
 const App = () => {
   return (
@@ -17,13 +21,18 @@ const App = () => {
       {/* <OrderDetailsPage/> */}
       {/* <MyComponent/> */}
       {/* <ProductSearch /> */}
-     
-      <Routes>
+      {/* <Routes>
         <Route path='/' element={<ProductSearch/>}/>
         <Route path="/cartitems" element={<CartItems />} />
-      </Routes>
+      </Routes> */}
+      {/* <Allotment/> */}
+      {/* <VerifiedProducts/> */}
+      <VerifiedProductsList/>
+      {/* <DealerAllotmentStock/> */}
     
     </div>
   );
 }
 export default App;
+
+

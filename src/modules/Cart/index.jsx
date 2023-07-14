@@ -79,7 +79,6 @@ function ProductSearch() {
         });
     };
 
-
     const addToCart = (item, quantity) => {
         setCartItems((prevCartItems) => {
             const itemStock = stock[item.id];
@@ -141,10 +140,6 @@ function ProductSearch() {
         }
     };
 
-
-
-
-
     const calculateCartValue = () => {
         let totalQuantity = 0;
         cartItems.forEach((cartItem) => {
@@ -159,7 +154,6 @@ function ProductSearch() {
                 <div>
                     <Card>
                         <div className='search-div'>
-
                             <div className='product-search-input'>
                                 <input
                                     type="text"
@@ -167,7 +161,6 @@ function ProductSearch() {
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     placeholder='Search product by name/category/subcategory/variantId/brand...'
                                 />
-
                             </div>
 
                             <div className='search-submit-btn'>

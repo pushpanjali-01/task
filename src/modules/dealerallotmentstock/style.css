@@ -1,0 +1,114 @@
+.image-item {
+    width: 100px;
+  }
+  
+  .dealer-stock-section {
+    padding: 20px;
+  }
+  
+  .search-input-container {
+    width: 70%;
+    height: 45px;
+    border-radius: 25px;
+    padding-left: 25px;
+    border: 1px solid #dfdfe0;
+    display: flex;
+    background-color: #dfdfe0;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .search-input-container input {
+    border: none;
+    font-size: 20px;
+    background-color: #dfdfe0;
+    outline: none;
+  }
+  
+  .search-btn {
+    width: 100px;
+    background-color: #0eb162;
+    border: none;
+    border-radius: 0 25px 25px 0;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .export-btn {
+    width: 130px;
+    height: 45px;
+    border-radius: 25px;
+    border: none;
+    color: white;
+    background-color: #0eb162;
+    font-size: 15px;
+  }
+  
+  .export-buttons {
+    display: flex;
+    gap: 20px;
+  }
+  .table-container {
+    overflow-x: auto;
+  }
+  
+  .product-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+  }
+  
+  .product-table th,
+  .product-table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ccc;
+    min-width: 150px;
+    max-width: 150px;
+    width: 150px;
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .pagination button {
+    margin: 0 5px;
+    padding: 5px 10px;
+  }
+  
+  .table-header tr th {
+    font-size: 14px;
+    background-color: rgb(162, 219, 162);
+    width: 100px;
+  }
+  
+  .table-body tr td {
+    font-size: 12px;
+  }
+  
+  /* Media Queries for Mobile Screens */
+  @media only screen and (max-width: 768px) {
+    .search-input-container {
+      width: 100%;
+    }
+  
+    .export-btn {
+      width: 100px;
+      font-size: 12px;
+    }
+    .product-table td,
+    .product-table th {
+      font-size: 10px;
+      padding: 6px;
+      min-width: 110px;
+      max-width: 110px;
+      width: 110px;
+    }
+  }
+  
