@@ -12,6 +12,7 @@ import Allotment from './modules/allotment';
 import VerifiedProducts from './modules/verified-products';
 import DealerAllotmentStock from './modules/dealerallotmentstock';
 import VerifiedProductsList from './modules/verified-product-list';
+import StoreAllotment from './modules/store-allotment';
 
 const App = () => {
   return (
@@ -27,8 +28,9 @@ const App = () => {
       </Routes> */}
       {/* <Allotment/> */}
       {/* <VerifiedProducts/> */}
-      <VerifiedProductsList/>
-      {/* <DealerAllotmentStock/> */}
+      {/* <VerifiedProductsList/> */}
+      <DealerAllotmentStock/>
+      {/* <StoreAllotment/> */}
     
     </div>
   );

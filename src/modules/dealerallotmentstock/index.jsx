@@ -5,6 +5,7 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import Pagination from '../../components/pagination';
 import "./style.css"
+
 const DealerAllotmentStock = () => {
     const [stocks, setStocks] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -194,7 +195,7 @@ const DealerAllotmentStock = () => {
                         </div>
                     </div>
                     <div className="table-container">
-                        {currentStocks.length > 0 ? (
+                    {searchQuery && searchResults.length > 0 ? (
                             <table className="product-table">
                                 <thead className="table-header">
                                     <tr>
@@ -213,7 +214,7 @@ const DealerAllotmentStock = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {currentStocks.map((stock) => (
+                                    {searchResults.map((stock) => (
                                         <tr key={stock.id}>
                                             <td>{stock.id}</td>
                                             <td>{stock.dealer_allotment_item.id}</td>
@@ -224,7 +225,6 @@ const DealerAllotmentStock = () => {
                                                     className="image-item"
                                                 />
                                             </td>
-
                                             <td>{stock.dealer_allotment_item.product_variant.product.name}</td>
                                             <td>{stock.dealer_allotment_item.product_variant.product.brand}</td>
                                             <td>{stock.dealer_allotment_item.quantity}</td>
@@ -255,7 +255,6 @@ const DealerAllotmentStock = () => {
             </section>
         </main>
     );
-
 };
 
 export default DealerAllotmentStock;

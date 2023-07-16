@@ -215,6 +215,9 @@ const VerifiedProductsList = () => {
                 <div className="reported-heading">
                   <p>Reported Products</p>
                 </div>
+                <div className="verify-btn">
+                  <button onClick={handleVerify}>Verify</button>
+                </div>
                 <Table responsive className="bordered-table">
                   <thead>
                     <tr>
@@ -254,9 +257,7 @@ const VerifiedProductsList = () => {
                     ))}
                   </tbody>
                 </Table>
-                <div className="verify-btn">
-                  <button onClick={handleVerify}>Verify</button>
-                </div>
+               
               </Card>
             </div>
           </Card>
