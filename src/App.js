@@ -29,8 +29,8 @@ const App = () => {
       {/* <Allotment/> */}
       {/* <VerifiedProducts/> */}
       {/* <VerifiedProductsList/> */}
-      <DealerAllotmentStock/>
-      {/* <StoreAllotment/> */}
+      {/* <DealerAllotmentStock/> */}
+      <StoreAllotment/>
     
     </div>
   );

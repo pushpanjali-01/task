@@ -20,6 +20,7 @@ function StoreAllotment() {
     const [searchResults, setSearchResults] = useState([]);
     const [storeAllotmentResponse, setStoreAllotmentResponse] = useState([])
     const [isStoreAlloted, setIsStoreAlloted] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
 
     console.log(searchCartItems)
     console.log(cartItems)
@@ -34,19 +35,30 @@ function StoreAllotment() {
             fetchProductData();
         }
     }, [selectedStoreCode]);
+    useEffect(() => {
+        if (selectedStoreCode) {
+            fetchProductData();
+            // Clear cart items when the store code is changed
+            setCartItems([]);
+        }
+    }, [selectedStoreCode]);
 
     const fetchStoreCodes = async () => {
         try {
+            setIsLoading(true);
             const response = await axios.get('https://devapi.grozep.com/v1/in/stores');
             const codes = response.data.data.map((store) => store.code);
             setStoreCodes(codes);
+            setIsLoading(false);
         } catch (error) {
             console.log('Error fetching store codes:', error);
+            setIsLoading(false);
         }
     };
 
     const fetchProductData = async () => {
         try {
+            setIsLoading(true);
             const response = await axios.get(
                 `https://devapi.grozep.com/v1/stores/allotments/generate?storecode=${selectedStoreCode}`
             );
@@ -71,8 +83,11 @@ function StoreAllotment() {
             });
 
             setProductData(dataWithOrderQuantity);
+            console.log(productData)
+            setIsLoading(false);
         } catch (error) {
             console.log('Error fetching product data:', error);
+            setIsLoading(false);
         }
     };
 
@@ -107,11 +122,14 @@ function StoreAllotment() {
                 ...prevCartItems,
                 {
                     id: updatedProduct.id,
+                    name:updatedProduct.product_variant.product.name,
+                    brand:updatedProduct.product_variant.product.brand,
                     productVariantId: updatedProduct.productVariantId, // Add productVariantId
                     productVariant: updatedProduct.product_variant,
                     cartQuantity: 1,
                     orderQuantity: updatedProduct.orderQuantity,
                 },
+
             ]);
         }
     };
@@ -186,6 +204,8 @@ function StoreAllotment() {
                 ...prevCartItems,
                 {
                     id: result.id,
+                    name:result.name,
+                    brand:result.brand,
                     productVariantId: result.product_variants[0].id, // Add productVariantId
                     productVariant: result.product_variants[0],
                     cartQuantity: 1,
@@ -377,6 +397,8 @@ function StoreAllotment() {
                 console.log(storeAllotmentResponse)
                 setStoreAllotmentResponse(response.data.data);
                 setIsStoreAlloted(true);
+                setCartItems([])
+                setSearchCartItems([])
             } else {
                 console.log('Order placement failed:', response.data.message);
             }
@@ -464,6 +486,16 @@ function StoreAllotment() {
                 <div className="card-section">
 
                     <Card className="container-card">
+                        <select value={selectedStoreCode} onChange={handleStoreCodeChange} className='store-select'>
+                            <option value="" disabled>
+                                Select Store
+                            </option>
+                            {storeCodes.map((code) => (
+                                <option key={code} value={code}>
+                                    {code}
+                                </option>
+                            ))}
+                        </select>
                         <div className="search-input-container">
                             <input
                                 type="text"
@@ -482,119 +514,117 @@ function StoreAllotment() {
                                 placeholder="Search by Id/Name/Brand/Barcode..."
                             />
                         </div>
-                        <select value={selectedStoreCode} onChange={handleStoreCodeChange}>
-                            <option value="" disabled>
-                                Select Store
-                            </option>
-                            {storeCodes.map((code) => (
-                                <option key={code} value={code}>
-                                    {code}
-                                </option>
-                            ))}
-                        </select>
-                        {!isSearching && selectedStoreCode && productData.length > 0 && (
+                        {isLoading ? ( // Render loading indicator while data is being fetched
+                            <div className="loading-container">
+                                <h1>Loading Data.....</h1>
+                            </div>
+                        ) : (
                             <div>
-                                <div className="action-container">
-                                    <input
-                                        type="checkbox"
-                                        checked={selectAll}
-                                        onChange={handleSelectAllChange}
-                                        disabled={productData.length === 0}
-                                    />
-                                    <button onClick={handleAddAllClick} disabled={productData.length === 0}>
-                                        Add All To Cart
-                                    </button>
-                                </div>
-                                <table className="table-container">
-                                    <thead>
-                                        <tr>
-                                            <th>
-                                                <input
-                                                    type="checkbox"
-                                                    checked={selectAll}
-                                                    onChange={handleSelectAllChange}
-                                                />
-                                            </th>
-                                            <th>ID</th>
-                                            <th>Image</th>
-                                            <th>Name</th>
-                                            <th>Product Size</th>
-                                            <th>Brand</th>
-                                            <th>Barcode</th>
-                                            <th>Order Quantity</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {productData.map((product) => (
-                                            <tr key={product.id}>
-                                                <td>
-                                                    <input
-                                                        type="checkbox"
-                                                        checked={product.selected}
-                                                        onChange={() => {
-                                                            const updatedProductData = productData.map((prevProduct) => {
-                                                                if (prevProduct.id === product.id) {
-                                                                    return {
-                                                                        ...prevProduct,
-                                                                        selected: !prevProduct.selected,
-                                                                    };
-                                                                }
-                                                                return prevProduct;
-                                                            });
-                                                            setProductData(updatedProductData);
-                                                        }}
-                                                    />
-                                                </td>
-                                                <td>{product.id}</td>
-                                                <td>
-                                                    <img
-                                                        src={`https://media.grozep.com/images/products/${product.product_variant.images[0]}`}
-                                                        alt="product-image"
-                                                        className="image-item"
-                                                    />
-                                                </td>
-                                                <td>{product.product_variant.product.name}</td>
-                                                <td>
-                                                    {product.product_variant.product_size.value}{" "}
-                                                    {product.product_variant.product_size.unit}
-                                                </td>
-                                                <td>{product.product_variant.product.brand}</td>
-                                                <td>{product.product_variant.barcode}</td>
-                                                <td>
-                                                    {product.orderQuantity === 0 ? (
-                                                        <span className="out-of-stock">Out of Stock</span>
-                                                    ) : (
-                                                        <span>{product.orderQuantity}</span>
-                                                    )}
-                                                </td>
-                                                <td>
-                                                    {product.orderQuantity > 0 && (
-                                                        <div className="action-buttons">
-                                                            <button
-                                                                onClick={() => handleStorePlusClick(product)}
-                                                                className="plus"
-                                                            >
-                                                                +
-                                                            </button>
+                                {!isSearching && selectedStoreCode && productData.length > 0 && (
+                                    <div>
+                                        <div className="action-container">
+                                            <input
+                                                type="checkbox"
+                                                checked={selectAll}
+                                                onChange={handleSelectAllChange}
+                                                disabled={productData.length === 0}
+                                            />
+                                            <button onClick={handleAddAllClick} disabled={productData.length === 0}>
+                                                Add All To Cart
+                                            </button>
+                                        </div>
+                                        <table className="table-container">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={selectAll}
+                                                            onChange={handleSelectAllChange}
+                                                        />
+                                                    </th>
+                                                    <th>ID</th>
+                                                    <th>Image</th>
+                                                    <th>Name</th>
+                                                    <th>Product Size</th>
+                                                    <th>Brand</th>
+                                                    <th>Barcode</th>
+                                                    <th>Order Quantity</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {productData.map((product) => (
+                                                    <tr key={product.id}>
+                                                        <td>
                                                             <input
-                                                                type="number"
-                                                                value={product.cartQuantity}
-                                                                readOnly
+                                                                type="checkbox"
+                                                                checked={product.selected}
+                                                                onChange={() => {
+                                                                    const updatedProductData = productData.map((prevProduct) => {
+                                                                        if (prevProduct.id === product.id) {
+                                                                            return {
+                                                                                ...prevProduct,
+                                                                                selected: !prevProduct.selected,
+                                                                            };
+                                                                        }
+                                                                        return prevProduct;
+                                                                    });
+                                                                    setProductData(updatedProductData);
+                                                                }}
                                                             />
-                                                            <button
-                                                                onClick={() => handleStoreMinusClick(product)}
-                                                                className="minus"
-                                                            >
-                                                                -
-                                                            </button>
-                                                        </div>
-                                                    )}
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
+                                                        </td>
+                                                        <td>{product.id}</td>
+                                                        <td>
+                                                            <img
+                                                                src={`https://media.grozep.com/images/products/${product.product_variant.images[0]}`}
+                                                                alt="product-image"
+                                                                className="image-item"
+                                                            />
+                                                        </td>
+                                                        <td>{product.product_variant.product.name}</td>
+                                                        <td>
+                                                            {product.product_variant.product_size.value}{" "}
+                                                            {product.product_variant.product_size.unit}
+                                                        </td>
+                                                        <td>{product.product_variant.product.brand}</td>
+                                                        <td>{product.product_variant.barcode}</td>
+                                                        <td>
+                                                            {product.orderQuantity === 0 ? (
+                                                                <span className="out-of-stock">Out of Stock</span>
+                                                            ) : (
+                                                                <span>{product.orderQuantity}</span>
+                                                            )}
+                                                        </td>
+                                                        <td>
+                                                            {product.orderQuantity > 0 && (
+                                                                <div className="action-buttons">
+                                                                    <button
+                                                                        onClick={() => handleStorePlusClick(product)}
+                                                                        className="plus"
+                                                                    >
+                                                                        +
+                                                                    </button>
+                                                                    <input
+                                                                        type="number"
+                                                                        value={product.cartQuantity}
+                                                                        readOnly
+                                                                    />
+                                                                    <button
+                                                                        onClick={() => handleStoreMinusClick(product)}
+                                                                        className="minus"
+                                                                    >
+                                                                        -
+                                                                    </button>
+                                                                </div>
+                                                            )}
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                )}
                             </div>
                         )}
                         {isSearching && (
@@ -652,22 +682,23 @@ function StoreAllotment() {
                         )}
                     </Card>
                     <Card className='cart-section'>
-                        <div className='cart-header-section'>
-                            <div className='cart-headings'>
-                                <p>Cart roducts</p>
+                        {!isStoreAlloted ? (
+                            <div className='cart-header-section'>
+                                <div className='cart-headings'>
+                                    <p>Cart roducts</p>
+                                </div>
+                                <div className='place-order'>
+                                    <button onClick={handlePlaceOrder}>Place order</button>
+                                </div>
                             </div>
-                            <div className='place-order'>
-                                <button onClick={handlePlaceOrder}>Place order</button>
-                            </div>
-                        </div>
-                        <div>
-                            {isStoreAlloted && (
+                        ) : (
+                            <div>
                                 <div className="export-buttons">
                                     <button onClick={exportAsPDF} className="export-btn">Export as PDF</button>
                                     <button onClick={exportAsExcel} className="export-btn">Export as Excel</button>
                                 </div>
-                            )}
-                        </div>
+                            </div>
+                        )}
                         <div className='table-container'>
 
 
@@ -677,7 +708,9 @@ function StoreAllotment() {
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
+                                                <th>name</th>
                                                 <th>Size</th>
+                                                <th>Brand</th>
                                                 <th>Barcode</th>
                                                 <th>Updated Order Quantity</th>
                                                 <th>Cart Quantity</th>
@@ -688,9 +721,11 @@ function StoreAllotment() {
                                             {cartItems.map((item) => (
                                                 <tr key={item.id}>
                                                     <td>{item.id}</td>
+                                                    <td>{item.name}</td>
                                                     <td>
                                                         {item.productVariant.product_size.value} {item.productVariant.product_size.unit}
                                                     </td>
+                                                    <td>{item.brand}</td>
                                                     <td>{item.productVariant.barcode}</td>
                                                     <td>{item.orderQuantity}</td>
                                                     <td>{item.cartQuantity}</td>
@@ -702,10 +737,12 @@ function StoreAllotment() {
                                             {searchCartItems.map((item) => (
                                                 <tr key={item.id}>
                                                     <td>{item.id}</td>
+                                                    <td>{item.name}</td>
                                                     {/* <td>{item.productVariant.product.name}</td> */}
                                                     <td>
                                                         {item.productVariant.product_size.value} {item.productVariant.product_size.unit}
                                                     </td>
+                                                    <td>{item.brand}</td>
                                                     <td>{item.productVariant.barcode}</td>
                                                     <td>{item.orderQuantity}</td>
                                                     <td>{item.cartQuantity}</td>

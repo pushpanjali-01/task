@@ -34,7 +34,9 @@
     margin-top: 20px;
     padding: 10px;
   }
-  
+  .store-select{
+    margin-bottom: 10px;
+  }
   .table-container select {
     margin-right: 10px;
   }
@@ -86,9 +88,7 @@
     height: 45px;
     border-radius: 25px;
     padding-left: 15px;
-    border: 1px solid #dfdfe0;
     display: flex;
-    background-color: #dfdfe0;
     justify-content: space-between;
     margin-bottom: 20px;
   }
@@ -118,6 +118,8 @@
     background-color: #dfdfe0;
     outline: none;
     height: 40px;
+    width: 100%;
+    border-radius: 25px;
   }
   .cart-headings{
     font-size: 25px;

@@ -23,6 +23,7 @@
     font-size: 20px;
     background-color: #dfdfe0;
     outline: none;
+    width: 100%;
   }
   
   .search-btn {

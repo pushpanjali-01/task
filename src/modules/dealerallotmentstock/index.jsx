@@ -24,7 +24,9 @@ const DealerAllotmentStock = () => {
             const response = await fetch('https://devapi.grozep.com/v1/in/dealers-stocks');
             const data = await response.json();
             setStocks(data.data);
-            setSearchResults(data.data);
+            // setSearchResults(data.data);
+            console.log(searchResults)
+            console.log("stocks",stocks)
         } catch (error) {
             console.error('Error fetching stocks:', error);
         }
@@ -41,14 +43,14 @@ const DealerAllotmentStock = () => {
         const filteredResults = stocks.filter((stock) => {
             const { id, dealer_allotment_item } = stock;
             const { product_variant } = dealer_allotment_item;
-            const { barcode, name, brand } = product_variant;
-
+            const { barcode, name, brand } = product_variant.product;
+    
             const query = searchQuery.toLowerCase();
             const barcodeValue = barcode ? barcode.toLowerCase() : '';
             const nameValue = name ? name.toLowerCase() : '';
             const brandValue = brand ? brand.toLowerCase() : '';
             const idValue = String(id).toLowerCase();
-
+    
             return (
                 barcodeValue.includes(query) ||
                 nameValue.includes(query) ||
@@ -56,10 +58,11 @@ const DealerAllotmentStock = () => {
                 idValue.includes(query)
             );
         });
-
-        setSearchResults(filteredResults);
+    
+        setSearchResults(filteredResults.slice(indexOfFirstStock, indexOfLastStock));
         setCurrentPage(1);
     };
+    
 
     const handleSortClick = (column) => {
         if (sortColumn === column) {
@@ -195,7 +198,7 @@ const DealerAllotmentStock = () => {
                         </div>
                     </div>
                     <div className="table-container">
-                    {searchQuery && searchResults.length > 0 ? (
+                        {searchQuery && searchResults.length > 0 ? (
                             <table className="product-table">
                                 <thead className="table-header">
                                     <tr>
