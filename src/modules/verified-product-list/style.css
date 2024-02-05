@@ -7,7 +7,12 @@
     height: 100vh;
     overflow-y: auto;
   }
-  
+  .verified-items-s{
+    display: flex;
+    width: 100%;
+    padding: 20px;
+    gap: 20px;
+  }
   .details-product {
     display: flex;
   }
@@ -76,28 +81,42 @@
   .remove-btn {
     width: 55px;
     height: 35px;
+    background-color: transparent;
   }
-  
-  .remove-btn button {
-    height: 35px;
-    border: none;
-    background-color: red;
-    color: white;
-    border-radius: 5px;
-    text-align: center;
+  .remove-btn img{
+    width: 20px;
   }
+.remove-btn:hover{
+  background-color: transparent;
+}
   
   .reported-heading {
     font-size: 25px;
     font-weight: bold;
   }
   
-  .inner-card {
+  .inner-card-verify {
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     margin-top: 20px;
+    width: 100%;
+    height: 100vh;
+    overflow-y: auto;
   }
-  
+  .product-details-section-verify{
+width: 50%;
+  }
+  .product-details-section-allotment{
+    width: 50%;
+  }
+  .inner-card-allotment {
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    margin-top: 20px;
+    width: 100%;
+    /* height: 100vh; */
+    overflow-y: auto;
+  }
   .quantity-input input {
     width: 50%;
     margin-left: 7px;
@@ -124,6 +143,37 @@
   
   .modal-footer {
     justify-content: center;
+  }
+
+  .no-data{
+    height: 100vh;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+  .search-input-container {
+    width: 75%;
+    height: 45px;
+    border-radius: 25px;
+    padding-left: 25px;
+    border: 1px solid #dfdfe0;
+    display: flex;
+    background-color: #dfdfe0;
+    justify-content: space-between;
+    /* margin-bottom: 20px; */
+
+  }
+ 
+  .search-input-container input {
+    border: none;
+    font-size: 20px;
+    background-color: #dfdfe0;
+    outline: none;
+    width: 100%;
+    border-radius: 25px;
   }
   
   /* Media Queries for Mobile Screens */

@@ -57,43 +57,74 @@
     padding-left: 5px;
 }
 .search-submit-btn button{
-    width: 130px;
-    height: 35px;
+   padding: 7px;
+   width: 150px;
     background-color: blue;
     color: white;
     border: none;
     border-radius: 5px;
-
+}
+.search-submit-btn button:hover{
+    background-color: blue;
 }
 .cart-btn{
     padding-left: 80px;
 }
 .cart-btn button{
+    padding: 7px;
     width: 150px;
-    height: 35px;
     background-color: green;
     border: none;
     border-radius: 5px;
     color: white;
+}
+.cart-btn button:hover{
+    background-color: green;
 }
 .search-data-section{
     padding-top: 50px;
 }
-.add-btn{
+.add-btn-make-order {
     background-color: green;
-    width: 50px;
+    width: 100px;
+    padding: 5px;
     border: none;
     border-radius: 5px;
     color: white;
 }
-.remove-btn{
+.remove-btn-make-order{
     background-color: red;
-    width: 70px;
+    width: 100px;
+    padding: 5px;
     border: none;
     border-radius: 5px;
     color: white;
+}
+.remove-btn-make-order:hover{
+    background-color: red;
+}
+.add-btn-make-order:hover{
+    background-color: green;
+}
+.remove-btn:hover{
+    background-color: transparent;
 }
 .add-to-cart-btn{
     display: flex;
     gap: 20px;
+}
+
+.amt button{
+    background-color: red;
+    width: auto;
+    padding:7px ;
+    border: none;
+    border-radius: 5px;
+    color: white;
+}
+.amt{
+    padding-left: 100px;
+}
+.amt button:hover{
+    background-color: red;
 }

@@ -20,11 +20,12 @@ function ProductList() {
   const fetchProductData = async () => {
     try {
       const response = await fetch(
-        'https://api.grozep.com/v1/in/listings/stores?storeCode=JHDTO001'
+        'https://devapi.grozep.com/v1/in/search-listings?storeCode=JHGRH001&q=masala&page=1'
       );
       const data = await response.json();
+      console.log("res",data)
       setProductData(data.data);
-      console.log(data.data)
+      console.log("data",data.data)
     } catch (error) {
       console.error('Failed to fetch product data:', error);
     }

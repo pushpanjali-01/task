@@ -2,6 +2,7 @@
     padding-right: 30px;
     padding-left: 0px;
 }
+
 .cart-portion{
     display: flex;
 }
@@ -56,6 +57,9 @@
     border: none;
     border-radius: 5px;
 }
+.place-order-btn:hover{
+    background-color: green;
+}
 .select-voucher select{
     width: 100%;
     height: 40px;
@@ -87,6 +91,9 @@
     height: 35px;
     width: 120px;
 }
+.apply-voucher-btn:hover{
+    background-color: green;
+}
 .redeem-section{
     display: flex;
     justify-content: space-between;
@@ -94,7 +101,21 @@
     margin-bottom: 20px;
 }
 .redeem-input input{
-    width: 140px;
+    width: 100px;
+    height: 35px;
+}
+.add-button{
+    height: 35px;
+    background-color: green;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 12px;
+    color: white;
+}
+.redeem-input{
+    display: flex;
+    gap:5px;
 }
 .redeem-add-btn button{
     width: 120px;
@@ -106,13 +127,68 @@
 }
 
 .back-btn{
-    margin-left: 30px;
-    margin-bottom: 10px;
+    margin-left: 35px;
+    margin-bottom: 5px;
 }
 .back-btn button{
     background-color: transparent;
     border: none;
     font-size: 20px;
 }
+.back-btn button:hover{
+    background-color: transparent;
+}
+.dec-inc-btn{
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    color: orange;
+    font-weight: bold;
+}
+.dec-inc-btn:hover{
+    background-color: transparent;
+}
+.no-cartItems{
+    display: flex;
+    justify-content: center;
+    font-size:25px;
+    font-weight: bold;
+    align-items: center;
+}
+.voucher-option{
+    display: block;
+}
 
+/* style.css */
 
+/* Custom checkbox style */
+.custom-checkbox {
+    position: relative;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  /* Custom check mark (blue tick) */
+  .custom-checkbox::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 6px;
+    width: 5px;
+    height: 10px;
+    border: solid #007bff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    opacity: 0;
+  }
+  
+  /* Show the check mark when the checkbox is checked */
+  .custom-checkbox input:checked + .custom-checkbox::before {
+    opacity: 1;
+  }
+  

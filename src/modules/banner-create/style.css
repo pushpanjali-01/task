@@ -1,0 +1,381 @@
+/* BannerManagement.css */
+
+.banner-management-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.image-upload-container-left {
+    border: 2px dashed #ccc;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    margin-right: 10px;
+    position: relative;
+    width: 100%;
+    height: 200px;
+    border-radius: 25px;
+}
+
+.image-upload-container-right {
+    /* border: 2px dashed #ccc; */
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    margin-right: 10px;
+    position: relative;
+    width: 100%;
+    height: 260px;
+}
+
+.image-upload-wrapper {
+    display: flex;
+}
+
+/* .image-upload-container-left img {
+    max-width: 100%;
+    max-height: 200px;
+} */
+
+.cancel-mark {
+    position: absolute;
+    top: 6px;
+    right: 165px;
+    cursor: pointer;
+    background: #fff;
+    border-radius: 100%;
+    padding: 5px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+    z-index: 1;
+    width: 33px;
+    background-color: red;
+    color: white;
+    /* Add this line to position the cancel button above the image */
+}
+
+.banner-card {
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.banner-section {
+    width: 100%;
+    padding: 20px;
+}
+
+.display-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Add this line to position the cancel button correctly */
+}
+
+.display-image img {
+    max-width: 100%;
+    max-height: 200px;
+}
+
+.left {
+    width: 50%;
+    padding: 20px;
+}
+
+.right {
+    width: 50%;
+    padding: 20px;
+}
+
+.container {
+    text-align: center;
+}
+
+.toggle-switch {
+    position: relative;
+    width: 75px;
+    display: inline-block;
+    text-align: left;
+    top: 8px;
+}
+
+.checkbox {
+    display: none;
+}
+
+.label {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    border: 0 solid #bbb;
+    border-radius: 20px;
+}
+
+.inner {
+    display: block;
+    width: 200%;
+    margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+
+.inner:before,
+.inner:after {
+    float: left;
+    width: 50%;
+    height: 36px;
+    padding: 0;
+    line-height: 36px;
+    color: #fff;
+    font-weight: 600;
+    box-sizing: border-box;
+}
+
+.inner:before {
+    content: "YES";
+    padding-left: 10px;
+    background-color: #060;
+    color: #fff;
+}
+
+.inner:after {
+    content: "NO";
+    padding-right: 10px;
+    background-color: #bbb;
+    color: #fff;
+    text-align: right;
+}
+
+.switch {
+    display: block;
+    width: 24px;
+    margin: 5px;
+    background: #fff;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 40px;
+    border: 0 solid #bbb;
+    border-radius: 20px;
+    transition: all 0.3s ease-in 0s;
+}
+
+.checkbox:checked+.label .inner {
+    margin-left: 0;
+}
+
+.checkbox:checked+.label .switch {
+    right: 0px;
+}
+
+.date-picker {
+    width: 100%;
+}
+
+.date-picker-input {
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 1px solid gray;
+    height: 35px;
+    color: black;
+    padding-left: 10px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.react-datepicker-wrapper {
+    width: 100% !important;
+}
+
+.date {
+    width: 100%;
+    /* margin-top: 10px; */
+    border-radius: 5px;
+    border: #dfdfe0;
+    height: 33px;
+    color: black;
+    padding-left: 10px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    border-color: #dfdfe0;
+    outline: none;
+}
+
+
+.date-input {
+    width: 100%;
+}
+
+.remainder-text {
+    color: red;
+    margin-bottom: 0px;
+}
+
+.category select {
+    width: 100%;
+    margin-top: 10px;
+    height: 35px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding-left: 5px;
+    font-size: 15px;
+}
+
+.text-input input {
+    width: 100%;
+    margin-top: 10px;
+    height: 35px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding-left: 10px;
+    font-size: 15px;
+}
+
+.default-image {
+    width: 120px;
+    height: 130px;
+    background-color: #d9d9d9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.banner-image img {
+    max-width: 240px;
+    height: 145px;
+}
+
+.banner-image {
+    display: flex;
+    justify-content: center;
+}
+
+.banner-image-wrapper {
+    width: 250px;
+    height: 170px;
+    background: rgba(217, 217, 217, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.submit-button {
+    justify-content: center;
+    display: flex;
+}
+
+.submit-button button {
+    padding: 5px;
+    color: white;
+    background-color: #1978d6;
+    border-radius: 5px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.cloud-image img {
+    width: 75px;
+}
+
+.image-text {
+    padding-top: 15px;
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+}
+
+.image-browse button {
+    padding: 5px;
+    color: white;
+    background-color: #1978d6;
+    border-radius: 5px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.image-browse {
+    display: flex;
+    justify-content: center;
+}
+
+.banner-image-input img {
+    width: 100%;
+    height: 200px;
+}
+
+/* style.css */
+/* .calendar-icon {
+    position: absolute;
+    top: 60%;
+    left: 5px;
+    transform: translateY(-50%);
+    width: 25px;
+    height: 17px;
+    pointer-events: none;
+} */
+.calender {
+    width: 15px;
+
+}
+
+.submit-img {
+    width: 15px;
+    height: 15px;
+}
+
+.d-image {
+    max-width: 240px;
+    height: 145px;
+    display: contents;
+}
+
+.react-datepicker__navigation:hover {
+    background-color: transparent !important;
+}
+
+.upload-btn button {
+    background-color: #1978d6;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.upload-btn {
+    display: flex;
+    justify-content: center;
+}
+
+/* Add the custom class for the minDate */
+.custom-min-date {
+    background-color: transparent !important;
+}
+
+/* Add the custom class to prevent highlighting for the specific day */
+.prevent-highlight {
+    background-color: transparent !important;
+    color: #000;
+    /* Set the color to your desired text color */
+    /* You can adjust other styles as needed */
+}
+
+.react-datepicker__day--keyboard-selected,
+.react-datepicker__month-text--keyboard-selected,
+.react-datepicker__quarter-text--keyboard-selected,
+.react-datepicker__year-text--keyboard-selected {
+    border-radius: 0.3rem;
+    background-color: transparent !important;
+    color: rgb(0, 0, 0);
+}

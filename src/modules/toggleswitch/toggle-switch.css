@@ -1,0 +1,102 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid gray;
+    height: 35px;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+.container-clickable {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+    gap:15px;
+}
+
+.toggle-switch {
+    position: relative;
+    width: 75px;
+    display: flex;
+    text-align: left;
+    top: 0px;
+}
+
+.checkbox {
+    display: none;
+}
+
+.label {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    border: 0 solid #bbb;
+    border-radius: 20px;
+    height: 25px;
+    width: 100px;
+}
+
+.inner {
+    display: block;
+    width: 200%;
+    margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+
+.inner:before,
+.inner:after {
+    float: left;
+    width: 50%;
+    height: 36px;
+    padding: 0;
+    line-height: 36px;
+    color: #fff;
+    font-weight: bold;
+    box-sizing: border-box;
+}
+
+.inner:before {
+    content: " ";
+    padding-left: 10px;
+    background-color: #00d92f;
+    color: #fff;
+    
+}
+
+.inner:after {
+    content: " ";
+    padding-right: 10px;
+    background-color: #bbb;
+    color: #fff;
+    text-align: right;
+}
+
+.switch {
+    display: block;
+    width: 24px;
+    margin: 5px;
+    background: #fff;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 40px;
+    border: 0 solid #bbb;
+    border-radius: 20px;
+    transition: all 0.3s ease-in 0s;
+}
+
+.checkbox:checked+.label .inner {
+    margin-left: 0;
+}
+
+.checkbox:checked+.label .switch {
+    right: 0px;
+}
+
+.banner-list-toggle{
+    display: flex;
+    justify-content: space-between;
+}

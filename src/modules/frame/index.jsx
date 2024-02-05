@@ -1,37 +1,66 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState,useCallback } from 'react';
+import axios, { all } from 'axios';
 import { Card } from 'react-bootstrap';
-import Pagination from '../../components/pagination';
+
 import './style.css';
 import { saveAs } from 'file-saver';
 import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import del from '../../asserts/images/delete-icon.png'
+import Pagination from '../../components/pagination';
 function StoreAllotment() {
-    const [storeCodes, setStoreCodes] = useState([]);
-    const [selectedStoreCode, setSelectedStoreCode] = useState('');
-    const [productData, setProductData] = useState([]);
-    // const [cartItems, setCartItems] = useState([]);
-    const [selectAll, setSelectAll] = useState(false);
-    const [searchValue, setSearchValue] = useState('');
-    const [searchQuery, setSearchQuery] = useState('');
-    const [isSearching, setIsSearching] = useState(false);
-    // const [searchCartItems, setSearchCartItems] = useState([])
-    const [searchResults, setSearchResults] = useState([]);
-    const [storeAllotmentResponse, setStoreAllotmentResponse] = useState([])
-    const [isStoreAlloted, setIsStoreAlloted] = useState(false)
-    const [isLoading, setIsLoading] = useState(false);
-    const [placedItemsList, setPlacedItemsList] = useState([])
-    // const [inputValue, setInputValue] = useState([])
-    // const [inputValueSearch, setInputValueSearch] = useState([])
-    const [totalAmount, setTotalAmount] = useState('')
-
     const [inputValueSearch, setInputValueSearch] = useState(JSON.parse(localStorage.getItem('setInputValueSearch')) || []);
     const [searchCartItems, setSearchCartItems] = useState(JSON.parse(localStorage.getItem('SearchcartItems')) || []);
     const [inputValue, setInputValue] = useState(JSON.parse(localStorage.getItem('setInputValue')) || []);
     const [cartItems, setCartItems] = useState(JSON.parse(localStorage.getItem('SetCartItems')) || []);
-    console.log("cart", cartItems)
+    const [storeCodes, setStoreCodes] = useState(JSON.parse(localStorage.getItem('setStoreCodes')) || []);
+    const [productData, setProductData] = useState(JSON.parse(localStorage.getItem('setProductData')) || []);
+    const [selectAll, setSelectAll] = useState(JSON.parse(localStorage.getItem('setSelectAll')) || false);
+    const [searchQuery, setSearchQuery] = useState(JSON.parse(localStorage.getItem('setSearchQuery')) || '');
+    const [isSearching, setIsSearching] = useState(JSON.parse(localStorage.getItem('setIsSearching')) || false);
+    const [searchResults, setSearchResults] = useState(JSON.parse(localStorage.getItem('setSearchResults')) || []);
+    const [storeAllotmentResponse, setStoreAllotmentResponse] = useState(JSON.parse(localStorage.getItem('setStoreAllotmentResponse')) || [])
+    const [isStoreAlloted, setIsStoreAlloted] = useState(JSON.parse(localStorage.getItem('setIsStoreAlloted')) || false)
+    const [isLoading, setIsLoading] = useState(JSON.parse(localStorage.getItem('setIsLoading')) || false);
+    const [placedItemsList, setPlacedItemsList] = useState(JSON.parse(localStorage.getItem('setPlacedItemsList')) || [])
+    const [selectedStoreCode, setSelectedStoreCode] = useState(JSON.parse(localStorage.getItem('setSelectedStoreCode')) || '');
+    console.log("cart",cartItems)
+    console.log('searchcart',searchCartItems)
+
+    
+    // console.log("alll",allCart)
+    const updateLocalStorage = useCallback(() => {
+        try {
+            localStorage.setItem('SetCartItems', JSON.stringify(cartItems));
+            localStorage.setItem('setInputValueSearch', JSON.stringify(inputValueSearch));
+            localStorage.setItem('setInputValue', JSON.stringify(inputValue));
+            localStorage.setItem('SearchcartItems', JSON.stringify(searchCartItems));
+            localStorage.setItem('setStoreCodes', JSON.stringify(storeCodes));
+            localStorage.setItem('setProductData', JSON.stringify(productData));
+            localStorage.setItem('setSelectAll', JSON.stringify(selectAll));
+            localStorage.setItem('setSearchQuery', JSON.stringify(searchQuery));
+            localStorage.setItem('setIsSearching', JSON.stringify(isSearching));
+            localStorage.setItem('setSearchResults', JSON.stringify(searchResults));
+            localStorage.setItem('setStoreAllotmentResponse', JSON.stringify(storeAllotmentResponse));
+            localStorage.setItem('setIsStoreAlloted', JSON.stringify(isStoreAlloted));
+            localStorage.setItem('setIsLoading', JSON.stringify(isLoading));
+            localStorage.setItem('setPlacedItemsList', JSON.stringify(placedItemsList));
+            localStorage.setItem('setSelectedStoreCode', JSON.stringify(selectedStoreCode));
+            localStorage.setItem('cart',JSON.stringify([...cartItems,...setCartItems]))
+        } catch (error) {
+            console.error('Error updating localStorage:', error);
+        }
+    }, [cartItems,inputValueSearch, inputValue, searchCartItems, storeCodes, productData, selectAll, searchQuery, isSearching, searchResults, storeAllotmentResponse, isLoading, placedItemsList,selectedStoreCode,...cartItems,...searchCartItems], );
+    useEffect(() => {
+        updateLocalStorage();
+    }, [updateLocalStorage]);
+    // const allCartItems = ([...cartItems,...searchCartItems])
+    // setAllCart(allCartItems)
+    // useEffect(()=>{
+    //  const   allCart=([...cartItems,...searchCartItems])
+     
+    // },...cartItems,...searchCartItems)
     useEffect(() => {
         fetchStoreCodes();
     }, []);
@@ -41,7 +70,6 @@ function StoreAllotment() {
             fetchProductData();
         }
     }, [selectedStoreCode]);
-
     useEffect(() => {
         if (selectedStoreCode) {
             fetchProductData();
@@ -49,71 +77,10 @@ function StoreAllotment() {
         }
     }, [selectedStoreCode]);
 
-    const saveDataToLocalStorage = (key, data) => {
-        localStorage.setItem(key, JSON.stringify(data));
-    };
-    // localStorage.setItem('cartItems', JSON.stringify(cartItems));
-    // localStorage.setItem('setInputValue', JSON.stringify(inputValue));
-
-    useEffect(() => {
-        try {
-           
-            localStorage.setItem('setInputValueSearch', JSON.stringify(inputValueSearch));
-            localStorage.setItem('setInputValue', JSON.stringify(inputValue));
-            localStorage.setItem('SearchcartItems', JSON.stringify(searchCartItems));
-        } catch (error) {
-            console.error('Error updating localStorage:', error);
-        }
-    }, [inputValueSearch, inputValue, searchCartItems]);
-
-useEffect(()=>{
-    localStorage.setItem('SetCartItems', JSON.stringify(cartItems));
-},[cartItems])
-    useEffect(() => {
-        const loadDataFromLocalStorage = (key) => {
-            const data = localStorage.getItem(key);
-            return data ? JSON.parse(data) : null;
-        };
-
-        // const loadedCartItems = loadDataFromLocalStorage('cartItems') || [];
-        const loadedSearchCartItems = loadDataFromLocalStorage('SearchcartItems') || [];
-        const loadedProductData = loadDataFromLocalStorage('productData');
-        const loadedStoreCode = loadDataFromLocalStorage('storecode');
-        const loadedSearchResults = loadDataFromLocalStorage('searchresults');
-        const loadedSelectAll = loadDataFromLocalStorage('selectAll');
-        const loadedSearchQuery = loadDataFromLocalStorage('Searchquery');
-        const loadedIsSeach = loadDataFromLocalStorage('Issearching')
-        const loadedsetStoreCodes = loadDataFromLocalStorage('setStoreCodes')
-        const loadedsetStoreAllotmentResponse = loadDataFromLocalStorage('setStoreAllotmentResponse')
-        const loadedsetIsStoreAlloted = loadDataFromLocalStorage('setIsStoreAlloted')
-        const loadedsetIsLoading = loadDataFromLocalStorage('setIsLoading')
-        const loadedsetPlacedItemsList = loadDataFromLocalStorage('setPlacedItemsList')
-        const loadedsetInputValue = loadDataFromLocalStorage('setInputValue')
-        const loadedsetInputValueSearch = loadDataFromLocalStorage('setInputValueSearch')
-        // setCartItems(loadedCartItems);
-        setSearchCartItems(loadedSearchCartItems);
-        setProductData(loadedProductData || []);
-        setSelectedStoreCode(loadedStoreCode || []);
-        setSearchResults(loadedSearchResults || []);
-        setSelectAll(loadedSelectAll || false);
-        setSearchQuery(loadedSearchQuery || '');
-        setIsSearching(loadedIsSeach || false)
-        setStoreCodes(loadedsetStoreCodes || [])
-        setStoreAllotmentResponse(loadedsetStoreAllotmentResponse || [])
-        setIsStoreAlloted(loadedsetIsStoreAlloted || false)
-        setIsLoading(loadedsetIsLoading || false)
-        setPlacedItemsList(loadedsetPlacedItemsList || [])
-        setInputValue(loadedsetInputValue || [])
-        setInputValueSearch(loadedsetInputValueSearch || [])
-        // ... set other state variables as needed
-    }, []);
-
     const fetchStoreCodes = async () => {
         try {
             setIsLoading(true);
-            saveDataToLocalStorage('setIsLoading', true);
             const response = await axios.get('https://devapi.grozep.com/v1/in/stores');
-            console.log(response)
             const storeData = response.data.data.map((store) => {
                 return {
                     code: store.code,
@@ -121,20 +88,16 @@ useEffect(()=>{
                 };
             });
             setStoreCodes(storeData);
-            saveDataToLocalStorage('setStoreCodes', storeData);
             setIsLoading(false);
-            saveDataToLocalStorage('setIsLoading', false);
         } catch (error) {
             console.log('Error fetching store codes:', error);
             setIsLoading(false);
-            saveDataToLocalStorage('setIsLoading', false);
         }
     };
 
     const fetchProductData = async () => {
         try {
             setIsLoading(true);
-            saveDataToLocalStorage('setIsLoading', false);
             const response = await axios.get(
                 `https://devapi.grozep.com/v1/stores/allotments/generate?storecode=${selectedStoreCode}`
             );
@@ -169,62 +132,40 @@ useEffect(()=>{
                         return acc + remainingQuantity * tradePrice;
                     }
                 }, 0);
-                const stockItems = product.product_variant.inventory_listings[0].inventory_stocks.map((stock) => ({
 
-                    mrp: Number(stock.retailPrice),// Define 'mrp'
-                    rate: Number(stock.tradePrice),// Define 'rate'
-
-                }));
                 return {
                     ...product,
                     orderQuantity: orderQuantity,
                     cartQuantity: 0,
                     selected: false,
                     remainingQuantity: availableCapacity,
-                    amount: amount,
-                    stockItems: stockItems,
+                    // amount: amount
                 };
             });
 
             setProductData(dataWithOrderQuantity);
-            saveDataToLocalStorage('productData', dataWithOrderQuantity);
             console.log(dataWithOrderQuantity)
             setIsLoading(false);
-            saveDataToLocalStorage('setIsLoading', false);
         } catch (error) {
             console.log('Error fetching product data:', error);
             setIsLoading(false);
-            saveDataToLocalStorage('setIsLoading', false);
         }
     };
 
     const handleStoreCodeChange = (event) => {
-        const newSelectedStoreCode = event.target.value;
-        setSelectedStoreCode(newSelectedStoreCode);
-
-        // Save the new selectedStoreCode to local storage
-        saveDataToLocalStorage('storecode', newSelectedStoreCode);
-        // const storedStoreCodes = JSON.parse(localStorage.getItem('storeCodes') || '[]');
-        // setStoreCodes(storedStoreCodes);
+        setSelectedStoreCode(event.target.value);
         setIsStoreAlloted(false);
-        saveDataToLocalStorage('setIsStoreAlloted', false);
         setCartItems([])
-        saveDataToLocalStorage('cartItems', []);
         setSearchCartItems([])
-        // localStorage.setItem('SearchcartItems', JSON.stringify([]));
         setInputValueSearch([])
-        saveDataToLocalStorage('setInputValueSearch', []);
         setInputValue([])
-        saveDataToLocalStorage('setInputValue', []);
         setSelectAll(false)
-        saveDataToLocalStorage('selectAll', selectAll);
-
     };
 
     const handleSelectAllChange = (event) => {
         const checked = event.target.checked;
         setSelectAll(checked);
-        saveDataToLocalStorage('selectAll', checked);
+
         const updatedProductData = productData.map((product) => {
             if (product.remainingQuantity > 0) {
                 return {
@@ -237,12 +178,11 @@ useEffect(()=>{
         });
 
         setProductData(updatedProductData);
-        saveDataToLocalStorage('productData', updatedProductData);
     };
 
     const handleAddAllClick = () => {
         setSelectAll(false);
-        saveDataToLocalStorage('selectAll', false);
+
         const selectedItems = productData.filter((product) => product.selected);
 
         if (selectedItems.length === 0) {
@@ -316,7 +256,7 @@ useEffect(()=>{
                 });
             }
         });
-        // localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
+
         const updatedProductData = productData.map((product) => {
             if (product.selected) {
                 return {
@@ -328,24 +268,20 @@ useEffect(()=>{
         });
 
         setCartItems(updatedCartItems);
-
         console.log("updated", updatedCartItems);
         setProductData(updatedProductData);
-        saveDataToLocalStorage('productData', updatedProductData);
     };
 
     const searchProducts = async (query) => {
         try {
             setIsSearching(true);
-            saveDataToLocalStorage('Issearching', true);
             const response = await axios.get(
-                `https://api.grozep.com/v1/in/inventorysearch?q=${query}`
+                `https://devapi.grozep.com/v1/in/inventorysearch?q=${query}`
             );
             const searchResults = response.data.data;
             console.log(searchResults)
             const filteredResults = searchResults.filter((result) => {
-                const { id, name, brand } = result.product;
-                const barcode = result
+                const { id, name, brand, barcode } = result.product;
                 const lowerSearchValue = query.toLowerCase();
                 return (
                     id.toString().includes(lowerSearchValue) ||
@@ -384,8 +320,6 @@ useEffect(()=>{
             });
 
             setSearchResults(searchResultsWithOrderQuantity);
-            saveDataToLocalStorage('searchresults', searchResultsWithOrderQuantity);
-
         } catch (error) {
             console.log('Error fetching search results:', error);
         } finally {
@@ -401,8 +335,7 @@ useEffect(()=>{
         const updatedQuantity = Math.max(0, Math.min(enteredQuantity, remainingQuantity));
 
         setInputValue((prevInputValue) => ({ ...prevInputValue, [product.id]: updatedQuantity }));
-        // saveDataToLocalStorage('setInputValue',(prevInputValue) => ({ ...prevInputValue, [product.id]: updatedQuantity }));
-        // localStorage.setItem('setInputValue', JSON.stringify({...inputValue,[product.id]: updatedQuantity}));
+
         const existingItemIndex = cartItems.findIndex((item) => item.id === product.id);
         const sortedStocks = product.product_variant.inventory_listings[0].inventory_stocks
         // Calculate the stock information for the selected quantity
@@ -430,9 +363,6 @@ useEffect(()=>{
                     rate,
                     amount: itemAmount,
                 });
-                productData.stockItems = stockItems;
-                productData.mrp = mrp;
-                productData.rate = rate;
 
                 remainingCartQuantity -= quantityToUse;
                 if (remainingCartQuantity <= 0) {
@@ -449,13 +379,11 @@ useEffect(()=>{
                 updatedCartItems[existingItemIndex].stockItems = stockItems; // Update the stock information
                 updatedCartItems[existingItemIndex].amount = amount; // Update the total amount
                 setCartItems(updatedCartItems);
-                // localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
             } else {
                 // If the entered quantity is 0 or less, remove the item from the cart
                 const updatedCartItems = [...cartItems];
                 updatedCartItems.splice(existingItemIndex, 1);
                 setCartItems(updatedCartItems);
-                // localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
             }
         } else {
             if (updatedQuantity > 0) {
@@ -473,22 +401,8 @@ useEffect(()=>{
                         amount, // Add the total amount
                     },
                 ]);
-                // localStorage.setItem('cartItems', JSON.stringify(...cartItems, {
-                //     id: product.id,
-                //     name: product.product_variant.product.name,
-                //     brand: product.product_variant.product.brand,
-                //     productVariantId: product.product_variant.id,
-                //     productVariant: product.product_variant,
-                //     cartQuantity: updatedQuantity,
-                //     remainingQuantity: product.remainingQuantity - updatedQuantity,
-                //     stockItems,
-                //     amount, // Add the total amount
-                // },));
-
             }
         }
-
-
     };
 
     const handleSearchInputChange = (result, event) => {
@@ -499,8 +413,7 @@ useEffect(()=>{
         const updatedQuantity = Math.max(0, Math.min(enteredQuantity, remainingQuantity));
 
         setInputValueSearch((prevInputValue) => ({ ...prevInputValue, [result.id]: updatedQuantity }));
-        // saveDataToLocalStorage('setInputValueSearch',(prevInputValue) => ({ ...prevInputValue, [result.id]: updatedQuantity }));
-        // localStorage.setItem('setInputValueSearch', JSON.stringify({...inputValueSearch,[result.id]: updatedQuantity }));
+
         const existingItemIndex = searchCartItems.findIndex((item) => item.id === result.id);
         const sortedStocks = result.inventory_listings[0].inventory_stocks
 
@@ -545,15 +458,11 @@ useEffect(()=>{
                 updatedSearchCartItems[existingItemIndex].stockItems = stockItems; // Update the stock information
                 updatedSearchCartItems[existingItemIndex].amount = amount; // Update the total amount
                 setSearchCartItems(updatedSearchCartItems);
-                // localStorage.setItem('SearchcartItems', JSON.stringify(updatedSearchCartItems));
-
             } else {
                 // If the entered quantity is 0 or less, remove the item from the cart
                 const updatedSearchCartItems = [...searchCartItems];
                 updatedSearchCartItems.splice(existingItemIndex, 1);
                 setSearchCartItems(updatedSearchCartItems);
-                // localStorage.setItem('SearchcartItems', JSON.stringify(updatedSearchCartItems));
-
             }
         } else {
             if (updatedQuantity > 0) {
@@ -573,56 +482,35 @@ useEffect(()=>{
                         stockItems, // Add the stock information
                     },
                 ]);
-                console.log("cccc", cartItems)
-                // localStorage.setItem('SearchcartItems', JSON.stringify(...searchCartItems,{
-                //     id: result.id,
-                //     name: result.product.name,
-                //     brand: result.product.brand,
-                //     productVariantId: result.inventory_listings[0].productVariantId,
-                //     barcode: result.barcode,
-                //     sizeValue: result.product_size.value,
-                //     sizeUnit: result.product_size.unit,
-                //     cartQuantity: updatedQuantity,
-                //     remainingQuantity: result.remainingQuantity - updatedQuantity,
-                //     amount,
-                //     stockItems, // Add the stock information
-                // },));
-
             }
         }
     };
 
     const handleStoreRemoveItemClick = (product) => {
         setInputValue((prevInputValue) => ({ ...prevInputValue, [product.id]: null }));
-        // saveDataToLocalStorage('setInputValue',(prevInputValue) => ({ ...prevInputValue, [product.id]: null }));
-        // localStorage.setItem('setInputValue', JSON.stringify({...inputValue,[product.id]: null}));
+
         const existingItemIndex = cartItems.findIndex((item) => item.id === product.id);
         if (existingItemIndex !== -1) {
             const updatedCartItems = [...cartItems];
             updatedCartItems.splice(existingItemIndex, 1);
             setCartItems(updatedCartItems);
-            // localStorage.setItem('cartItems', JSON.stringify(updatedCartItems));
         }
     };
 
     const handleSearchRemoveItemClick = (result) => {
         setInputValueSearch((prevInputValue) => ({ ...prevInputValue, [result.id]: null }));
-        // saveDataToLocalStorage('setInputValueSearch',(prevInputValue) => ({ ...prevInputValue, [result.id]: null }))
-        // localStorage.setItem('setInputValueSearch', JSON.stringify({[result.id]: 0}));
+
         const existingItemIndex = searchCartItems.findIndex((item) => item.id === result.id);
         if (existingItemIndex !== -1) {
             const updatedSearchCartItems = [...searchCartItems];
             updatedSearchCartItems.splice(existingItemIndex, 1);
             setSearchCartItems(updatedSearchCartItems);
-            // localStorage.setItem('SearchcartItems', JSON.stringify(updatedSearchCartItems));
-
         }
     };
 
     const handleStoreAddItemClick = (product) => {
         setInputValue((prevInputValue) => ({ ...prevInputValue, [product.id]: 1 }));
-        // saveDataToLocalStorage('setInputValue',(prevInputValue) => ({ ...prevInputValue, [product.id]: 1 }))
-        // localStorage.setItem('setInputValue', JSON.stringify({...inputValue,[product.id]: 1 }));
+
         const existingItemIndex = cartItems.findIndex((item) => item.id === product.id);
         if (existingItemIndex !== -1) {
             // Item already exists in cart, do nothing
@@ -651,14 +539,11 @@ useEffect(()=>{
 
                 const amount = quantityToUse * Number(stock.tradePrice);
 
-                const mrp = Number(stock.retailPrice); // Define 'mrp'
-                const rate = Number(stock.tradePrice); // Define 'rate'
-
                 stockItems.push({
                     remaining: quantityToUse,
                     tradePrice: Number(stock.tradePrice),
-                    mrp,
-                    rate,
+                    mrp: Number(stock.retailPrice),
+                    rate: Number(stock.tradePrice),
                     amount,
                 });
 
@@ -673,9 +558,6 @@ useEffect(()=>{
                     amount,
                     stockItems, // Add the stock information
                 });
-
-
-
                 remainingCartQuantity -= availableQuantity;
                 if (remainingCartQuantity === 0) break;
                 console.log(stockItems);
@@ -684,13 +566,11 @@ useEffect(()=>{
 
         // Add the new cart items
         setCartItems((prevCartItems) => [...prevCartItems, ...newCartItems]);
-        // saveDataToLocalStorage('cartItems', (prevCartItems) => [...prevCartItems, ...newCartItems]);
-        // localStorage.setItem('cartItems', JSON.stringify(...cartItems,...newCartItems));
     };
 
     const handleSearchAddItemClick = (result) => {
         setInputValueSearch((prevInputValue) => ({ ...prevInputValue, [result.id]: 1 }));
-        // localStorage.setItem('setInputValueSearch', JSON.stringify({...inputValueSearch,[result.id]: 1 }));
+
         const existingItemIndex = searchCartItems.findIndex((item) => item.id === result.id);
         if (existingItemIndex !== -1) {
             // Item already exists in cart, do nothing
@@ -751,13 +631,11 @@ useEffect(()=>{
 
         // Add the new cart items
         setSearchCartItems((prevCartItems) => [...prevCartItems, ...newCartItems]);
-        // localStorage.setItem('SearchcartItems', JSON.stringify({...searchCartItems,...newCartItems}));
-
     };
 
     const handlePlaceOrder = async () => {
         const allCartItems = [...cartItems, ...searchCartItems];
-
+        console.log("place order",allCartItems)
         const orderItems = allCartItems.map((item) => ({
             quantity: item.cartQuantity,
             productVariantId: item.productVariantId,
@@ -775,22 +653,6 @@ useEffect(()=>{
             if (response.data.status === true) {
                 alert("Successfully placed order", response.data.status)
                 setIsLoading(true)
-                saveDataToLocalStorage('setIsLoading', false);
-                localStorage.removeItem('cartItems');
-                localStorage.removeItem('SearchcartItems');
-                localStorage.removeItem('Searchquery');
-                localStorage.removeItem('searchresults');
-                localStorage.removeItem('setInputValue');
-                localStorage.removeItem('setInputValueSearch');
-                localStorage.removeItem('productData')
-                localStorage.removeItem('storecode')
-                localStorage.removeItem('selectAll')
-                localStorage.removeItem('Issearching')
-                localStorage.removeItem('setStoreCodes')
-                localStorage.removeItem('setStoreAllotmentResponse')
-                localStorage.removeItem('setIsStoreAlloted')
-                localStorage.removeItem('setPlacedItemsList')
-
                 const placedOrderItems = allCartItems.map((item) => ({
                     id: item.id,
                     name: item.name,
@@ -805,25 +667,16 @@ useEffect(()=>{
                 console.log("placeorder", placedOrderItems)
                 console.log('Successfully placed order items:', placedOrderItems);
                 setPlacedItemsList(placedOrderItems)
-                saveDataToLocalStorage('setPlacedItemsList', placedOrderItems);
                 setStoreAllotmentResponse(response.data.data);
-                saveDataToLocalStorage('setIsStoreAllotedResponse', response.data.data);
                 setIsStoreAlloted(true);
-                saveDataToLocalStorage('setIsStoreAlloted', true);
                 setCartItems([]);
-                // localStorage.setItem('cartItems', JSON.stringify([]));
                 setSearchCartItems([]);
-                // localStorage.setItem('SearchcartItems', JSON.stringify([]));
                 setSelectedStoreCode([]);
                 setSearchQuery('')
-                saveDataToLocalStorage('Searchquery', '');
                 setSearchResults([])
-                saveDataToLocalStorage('searchresults', []);
                 setIsSearching(false)
                 setInputValue([])
-                saveDataToLocalStorage('setInputValue', [])
                 setInputValueSearch([])
-                saveDataToLocalStorage('setInputValueSearch', [])
             } else {
                 console.log('Order placement failed:', response.data.message);
                 alert(response.data.message)
@@ -930,6 +783,7 @@ useEffect(()=>{
         return totalAmount;
     };
 
+
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 10;
 
@@ -980,17 +834,13 @@ useEffect(()=>{
                                 type="text"
                                 value={searchQuery}
                                 onChange={(event) => {
-                                    const search = event.target.value
-                                    setSearchQuery(search);
-                                    saveDataToLocalStorage('Searchquery', search);
+                                    setSearchQuery(event.target.value);
                                     setIsSearching(false);
                                     setIsStoreAlloted(false);
-                                    saveDataToLocalStorage('setIsStoreAlloted', false);
                                     if (event.target.value.trim() !== '') {
                                         searchProducts(event.target.value.trim());
                                     } else {
                                         setProductData([]);
-                                        saveDataToLocalStorage('productData', []);
                                         setIsSearching(false);
                                     }
                                 }}
@@ -1060,8 +910,6 @@ useEffect(()=>{
                                                                             return prevProduct;
                                                                         });
                                                                         setProductData(updatedProductData);
-                                                                        saveDataToLocalStorage('productData', updatedProductData);
-
                                                                     }
                                                                 }}
                                                                 disabled={product.remainingQuantity === 0} // Disable checkbox if out of stock
@@ -1173,7 +1021,6 @@ useEffect(()=>{
                                                 handleLastClick={handleLastClick}
                                             />
                                         </div>
-
                                     </div>
                                 )}
                             </div>
@@ -1276,7 +1123,6 @@ useEffect(()=>{
                             </div>
                         )}
 
-
                     </Card>
                     <Card className='cart-section'>
                         {!isStoreAlloted ? (
@@ -1311,7 +1157,7 @@ useEffect(()=>{
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
-                                                <th>Brand & Name</th>
+                                                <th>Name & Brand</th>
                                                 <th>Size</th>
                                                 <th>MRP</th>
                                                 <th>Rate</th>

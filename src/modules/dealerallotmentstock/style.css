@@ -6,8 +6,8 @@
     padding: 20px;
   }
   
-  .search-input-container {
-    width: 70%;
+  .search-input-container-stock {
+    width: 75%;
     height: 45px;
     border-radius: 25px;
     padding-left: 25px;
@@ -15,15 +15,17 @@
     display: flex;
     background-color: #dfdfe0;
     justify-content: space-between;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
+
   }
   
-  .search-input-container input {
+  .search-input-container-stock input {
     border: none;
     font-size: 20px;
     background-color: #dfdfe0;
     outline: none;
     width: 100%;
+    border-radius: 25px;
   }
   
   .search-btn {
@@ -48,7 +50,7 @@
     font-size: 15px;
   }
   
-  .export-buttons {
+  .export-buttons-stock {
     display: flex;
     gap: 20px;
   }
@@ -80,7 +82,7 @@
   
   .pagination button {
     margin: 0 5px;
-    padding: 5px 10px;
+    padding: 1px 10px;
   }
   
   .table-header tr th {
